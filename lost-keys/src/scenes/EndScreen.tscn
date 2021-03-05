@@ -1,0 +1,86 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://assets/background/forest.png" type="Texture" id=1]
+[ext_resource path="res://src/ui/StartButton.tscn" type="PackedScene" id=2]
+[ext_resource path="res://src/ui/QuitButton.tscn" type="PackedScene" id=3]
+[ext_resource path="res://assets/audio/ForestEnd.ogg" type="AudioStream" id=4]
+[ext_resource path="res://src/scenes/EndScreen.gd" type="Script" id=5]
+[ext_resource path="res://assets/ui_theme.tres" type="Theme" id=6]
+[ext_resource path="res://src/ui/Title.tscn" type="PackedScene" id=7]
+[ext_resource path="res://assets/AmaticSC-Bold.ttf" type="DynamicFontData" id=8]
+
+[sub_resource type="DynamicFont" id=1]
+size = 27
+use_filter = true
+font_data = ExtResource( 8 )
+
+[node name="EndScreen" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 6 )
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 1 )
+expand = true
+stretch_mode = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" parent="." instance=ExtResource( 7 )]
+margin_left = -295.5
+margin_top = 36.5103
+margin_right = 295.5
+margin_bottom = 92.5103
+text = "Congratualtions, you have escaped."
+
+[node name="Label" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -70.0
+margin_top = -73.8039
+margin_right = 70.0
+margin_bottom = -0.803925
+custom_fonts/font = SubResource( 1 )
+text = "Final Score: %s
+You died %s Times"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Menu" type="VBoxContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -96.5
+margin_top = 14.8212
+margin_right = 96.5
+margin_bottom = 105.821
+size_flags_horizontal = 3
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StartButton" parent="Menu" instance=ExtResource( 2 )]
+text = "Play Again"
+next_scene_path = "res://src/levels/World.tscn"
+
+[node name="QuitButton" parent="Menu" instance=ExtResource( 3 )]
+margin_bottom = 90.0
+
+[node name="EndMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+volume_db = -12.8
+autoplay = true

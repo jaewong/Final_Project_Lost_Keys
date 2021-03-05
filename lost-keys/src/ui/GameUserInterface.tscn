@@ -1,0 +1,135 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://assets/ui_theme.tres" type="Theme" id=1]
+[ext_resource path="res://src/ui/GameUserInterface.gd" type="Script" id=2]
+[ext_resource path="res://src/ui/Title.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/ui/StartButton.tscn" type="PackedScene" id=4]
+[ext_resource path="res://src/ui/QuitButton.tscn" type="PackedScene" id=5]
+[ext_resource path="res://src/ui/RetryButton.tscn" type="PackedScene" id=6]
+[ext_resource path="res://assets/AmaticSC-Bold.ttf" type="DynamicFontData" id=7]
+[ext_resource path="res://assets/key/key.png" type="Texture" id=8]
+[ext_resource path="res://assets/audio/player_death.wav" type="AudioStream" id=9]
+
+[sub_resource type="DynamicFont" id=1]
+size = 35
+font_data = ExtResource( 7 )
+
+[node name="GameUserInterface" type="Control"]
+pause_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Key" type="Sprite" parent="."]
+position = Vector2( 595.325, 79.1357 )
+rotation = -1.5708
+scale = Vector2( 0.0269056, 0.035494 )
+texture = ExtResource( 8 )
+
+[node name="Data" type="VBoxContainer" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -110.0
+margin_top = 0.5
+margin_right = -15.0
+margin_bottom = 95.5
+alignment = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Score" type="Label" parent="Data"]
+margin_right = 104.0
+margin_bottom = 29.0
+text = "Score: %s"
+align = 2
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Deaths" type="Label" parent="Data"]
+margin_top = 33.0
+margin_right = 104.0
+margin_bottom = 62.0
+text = "Total Deaths: %s"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Num_of_key" type="Label" parent="Data"]
+margin_top = 66.0
+margin_right = 104.0
+margin_bottom = 95.0
+text = "x  %s"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GameMessage" type="Label" parent="."]
+margin_left = 7.0
+margin_top = -0.5
+margin_right = 49.0
+margin_bottom = 50.5
+custom_fonts/font = SubResource( 1 )
+text = "%s"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PauseOverlay" type="ColorRect" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -1.12244
+margin_right = -1.12244
+color = Color( 0.192157, 0.0235294, 0.0235294, 0.27451 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" parent="PauseOverlay" instance=ExtResource( 3 )]
+margin_left = -135.0
+margin_top = 26.9695
+margin_right = 135.0
+margin_bottom = 105.97
+text = "Paused"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseOverlay"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -92.0
+margin_top = -71.5
+margin_right = 92.0
+margin_bottom = 71.5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RetryButton" parent="PauseOverlay/VBoxContainer" instance=ExtResource( 6 )]
+margin_right = 184.0
+margin_bottom = 45.0
+
+[node name="MainScreen" parent="PauseOverlay/VBoxContainer" instance=ExtResource( 4 )]
+margin_top = 49.0
+margin_right = 184.0
+margin_bottom = 94.0
+text = "Main screen"
+next_scene_path = "res://src/scenes/StartMenu.tscn"
+
+[node name="QuitButton" parent="PauseOverlay/VBoxContainer" instance=ExtResource( 5 )]
+margin_top = 98.0
+margin_right = 184.0
+margin_bottom = 143.0
+
+[node name="PlayerDeath" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 9 )
+volume_db = -10.263

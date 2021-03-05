@@ -1,0 +1,148 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://assets/other/light.png" type="Texture" id=1]
+[ext_resource path="res://assets/player/player_run.png" type="Texture" id=2]
+[ext_resource path="res://src/actors/Player.gd" type="Script" id=5]
+[ext_resource path="res://assets/audio/Step.wav" type="AudioStream" id=27]
+
+[sub_resource type="CapsuleShape2D" id=1]
+height = 9.5303
+
+[sub_resource type="Animation" id=2]
+resource_name = "Fall"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 1 ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "Jump"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+
+[sub_resource type="Animation" id=4]
+length = 0.8
+loop = true
+step = 0.15
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.15, 0.3, 0.45, 0.6, 0.75 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 2, 2, 3, 4, 5, 6 ]
+}
+
+[sub_resource type="Animation" id=5]
+length = 1.1
+loop = true
+step = 0.09
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.09, 0.18, 0.27, 0.36, 0.45, 0.54, 0.63, 0.72, 0.81, 0.9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.45 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [  ],
+"method": "run_sound"
+}, {
+"args": [  ],
+"method": "run_sound"
+} ]
+}
+
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 10.4272, 11.1821 )
+
+[node name="Player" type="KinematicBody2D"]
+position = Vector2( -0.314983, -15.9065 )
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 0, 0.157 )
+texture = ExtResource( 2 )
+hframes = 21
+frame = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 2.82842 )
+shape = SubResource( 1 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+offset = Vector2( 0, -50 )
+current = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "idle"
+anims/Fall = SubResource( 2 )
+anims/Jump = SubResource( 3 )
+anims/idle = SubResource( 4 )
+anims/run = SubResource( 5 )
+
+[node name="Step" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 27 )
+volume_db = -2.537
+bus = "Run"
+
+[node name="EnemyDetector" type="Area2D" parent="."]
+monitorable = false
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyDetector"]
+modulate = Color( 0, 0.156863, 1, 1 )
+position = Vector2( 0.31498, 4.40973 )
+shape = SubResource( 6 )
+
+[node name="Light2D" type="Light2D" parent="."]
+position = Vector2( 0, -40 )
+scale = Vector2( 1.2, 1.2 )
+texture = ExtResource( 1 )
+mode = 2
+range_z_min = 0
+range_z_max = 0
+range_layer_min = -512
+range_layer_max = 512
+shadow_enabled = true
+[connection signal="body_entered" from="EnemyDetector" to="." method="_on_EnemyDetector_body_entered"]
